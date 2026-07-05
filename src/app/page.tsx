@@ -84,6 +84,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section
+        data-section="coming-soon"
+        className="px-6 py-16 text-center font-sans sm:px-10 sm:py-24"
+      >
+        <p className="mx-auto max-w-2xl text-lg font-semibold tracking-tight sm:text-xl">
+          GhostShift is coming soon — available soon for sale.
+        </p>
+      </section>
     </>
   );
 }
