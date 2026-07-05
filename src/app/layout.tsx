@@ -7,7 +7,7 @@ const DESCRIPTION =
   "GhostShift is a dark-factory automation platform that keeps your production line running around the clock, with no operators on the floor and no lights left on.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL!),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: TITLE,
   description: DESCRIPTION,
   openGraph: {
