@@ -1,0 +1,36 @@
+# Post-deploy smoke test (ST-1/ST-2). The production deploy itself happens
+# outside this repo (the operator's Ship station running `docker compose up
+# -d --build` against the VPS). The Ship station's deploy step is required to
+# call the GitHub API's repository_dispatch endpoint with event_type
+# "post-deploy" as its final action, immediately once `docker compose up -d
+# --build` exits 0 — that is the coupling: this job cannot fire before the
+# deploy step reports success, because nothing sends that event before then.
+# A manual workflow_dispatch is also kept for local re-runs against a given
+# site_url, but repository_dispatch is the deploy-coupled trigger.
+name: post-deploy-smoke-test
+
+on:
+  repository_dispatch:
+    types: [post-deploy]
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: Production site URL to smoke test
+        required: false
+        default: https://ghost-shift-marketing.spacerockapps.com
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Run post-deploy smoke test
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ github.event.client_payload.site_url || inputs.site_url || 'https://ghost-shift-marketing.spacerockapps.com' }}
+        run: node scripts/post-deploy-smoke-test.mjs
