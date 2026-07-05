@@ -121,4 +121,22 @@ describe("runSmokeTest", () => {
 
     await expect(runSmokeTest(SITE_URL, { fetchImpl })).rejects.toThrow(/expected "image\/png"/);
   });
+
+  it("retries the og:image asset fetch through the ACME provisioning window before succeeding", async () => {
+    const html = htmlWithImages(`${SITE_URL}/og-image.png`, `${SITE_URL}/og-image.png`);
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, text: async () => html } as unknown as Response)
+      .mockRejectedValueOnce(new Error("ECONNREFUSED"))
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "image/png" }),
+      } as Response);
+    const sleep = vi.fn().mockResolvedValue(undefined);
+
+    await expect(runSmokeTest(SITE_URL, { fetchImpl, sleep })).resolves.toBeUndefined();
+    expect(fetchImpl).toHaveBeenCalledTimes(3);
+    expect(sleep).toHaveBeenCalledWith(30_000);
+  });
 });

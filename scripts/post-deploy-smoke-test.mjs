@@ -57,7 +57,7 @@ export async function runSmokeTest(siteUrl, { fetchImpl = fetch, sleep = default
   const html = await pageResponse.text();
   const { ogImage } = assertProductionImageUrls(html, siteUrl);
 
-  const imageResponse = await fetchImpl(ogImage);
+  const imageResponse = await fetchWithRetry(ogImage, { fetchImpl, sleep });
   assertImageAsset(imageResponse);
 }
 
