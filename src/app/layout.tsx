@@ -1,7 +1,26 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-export const metadata = { title: "ghost-shift-marketing" };
+const TITLE = "GhostShift — Dark-Factory Automation";
+const DESCRIPTION =
+  "GhostShift is a dark-factory automation platform that keeps your production line running around the clock, with no operators on the floor and no lights left on.";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og-image.png"],
+  },
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
