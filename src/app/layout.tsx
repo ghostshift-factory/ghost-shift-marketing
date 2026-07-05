@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { resolveMetadataBase } from "@/lib/metadata";
 import "./globals.css";
 
 const TITLE = "GhostShift — Dark-Factory Automation";
@@ -7,7 +8,7 @@ const DESCRIPTION =
   "GhostShift is a dark-factory automation platform that keeps your production line running around the clock, with no operators on the floor and no lights left on.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: resolveMetadataBase(),
   title: TITLE,
   description: DESCRIPTION,
   openGraph: {
