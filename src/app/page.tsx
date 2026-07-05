@@ -1,3 +1,26 @@
+const CAPABILITIES = [
+  {
+    title: "Autonomous scheduling",
+    description:
+      "GhostShift sequences jobs across every station automatically, adapting the plan in real time as conditions on the floor change.",
+  },
+  {
+    title: "Lights-out monitoring",
+    description:
+      "Every station is watched continuously, so issues are caught and handled long before a human would ever walk the floor.",
+  },
+  {
+    title: "Seamless robotics orchestration",
+    description:
+      "Robots, sensors, and conveyors are coordinated as a single system, eliminating the manual handoffs that slow production down.",
+  },
+  {
+    title: "Human-in-the-loop escalation",
+    description:
+      "When something truly needs a person, GhostShift hands off the decision with full context instead of stalling the line.",
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -37,6 +60,28 @@ export default function Home() {
             hands off decisions to your team only when something truly needs a
             human.
           </p>
+        </div>
+      </section>
+      <section
+        data-section="capabilities"
+        className="px-6 py-16 font-sans sm:px-10 sm:py-24"
+      >
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Key capabilities
+          </h2>
+          <div className="mt-10 grid gap-8 sm:grid-cols-2">
+            {CAPABILITIES.map((capability) => (
+              <div key={capability.title} data-testid="capability-item">
+                <h3 className="text-xl font-semibold tracking-tight">
+                  {capability.title}
+                </h3>
+                <p className="mt-2 text-base text-gray-600 sm:text-lg">
+                  {capability.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
